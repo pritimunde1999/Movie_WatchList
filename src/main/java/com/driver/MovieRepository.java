@@ -2,10 +2,7 @@ package com.driver;
 
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class MovieRepository {
@@ -37,19 +34,15 @@ public class MovieRepository {
 
     public void removeAllDirectors()
     {
-        directorDb.clear();
-
-        for(String movie: directorMovieDb.keySet())
-        {
-            if(!(directorMovieDb.get(movie).equals(null)))
-            {
-                directorMovieDb.remove(movie);
-                if(movieDb.containsKey(movie))
-                {
-                    movieDb.remove(movie);
-                }
+        Iterator<Map.Entry<String, String>> iterator = directorMovieDb.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, String> entry = iterator.next();
+            if (movieDb.containsKey(entry.getValue())) {
+                iterator.remove();
+                movieDb.remove(entry.getKey());
             }
         }
+        directorDb.clear();
     }
 
 
@@ -57,7 +50,7 @@ public class MovieRepository {
 
     public String deleteDirectorByName(String name) {
         //deleted from director db
-        directorDb.remove(name);
+
         for(Map.Entry<String,String> entry : directorMovieDb.entrySet())
         {
             if(entry.getValue().equals(name))
@@ -67,6 +60,7 @@ public class MovieRepository {
                 directorMovieDb.remove(movieName);
             }
         }
+        directorDb.remove(name);
         return "Director and movies are deleted Successfully";
     }
 
