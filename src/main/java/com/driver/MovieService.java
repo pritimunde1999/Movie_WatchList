@@ -57,17 +57,8 @@ public class MovieService {
 
     public List<String> getMoviesByDirectorName(String name)
     {
-       HashMap<String,String> hm = movieRepository.directorMovieDb;
-       List<String> list = new ArrayList<>();
-
-       for(String movie: hm.keySet())
-       {
-           if(hm.get(movie).equals(name))
-           {
-               list.add(movie);
-           }
-       }
-       return list;
+       HashMap<String,List<String>> hm = movieRepository.directorMovieDb;
+       return hm.get(name);
     }
 
     public List<String> findAllMovies()

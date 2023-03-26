@@ -9,40 +9,55 @@ public class MovieRepository {
 
     HashMap<String,Movie> movieDb = new HashMap<>();
     HashMap<String,Director> directorDb = new HashMap<>();
-    HashMap<String, String> directorMovieDb = new HashMap<>();
+    HashMap<String, List<String>> directorMovieDb = new HashMap<>();
 
     public String addMovie(Movie movie)
     {
-        String key = movie.getMovieName();
+        String key = movie.getName();
         movieDb.put(key,movie);
         return "Movie Added Successfully";
     }
 
     public String addDirector(Director director)
     {
-        String key = director.getDirectorName();
+        String key = director.getName();
         directorDb.put(key,director);
         return "Director Added Successfully";
     }
 
     public String addMovieDirectorPair(String director, String movie)
     {
-        directorMovieDb.put(movie,director);
-        return "Director-Movie Paired Successfully";
-
+        if(directorMovieDb.containsKey(director))
+        {
+            directorMovieDb.get(director).add(movie);
+        }
+        else
+        {
+            List<String> list = new ArrayList<>();
+            list.add(movie);
+            directorMovieDb.put(director,list);
+        }
+        return "Director-Movie Pair Added Successfully";
     }
 
     public void removeAllDirectors()
     {
-        Iterator<Map.Entry<String, String>> iterator = directorMovieDb.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<String, String> entry = iterator.next();
-            if (movieDb.containsKey(entry.getValue())) {
-                iterator.remove();
-                movieDb.remove(entry.getKey());
+        List<String> movies = new ArrayList<>();
+
+        for (List<String> list : directorMovieDb.values())
+        {
+            for(String s : list)
+            {
+                movies.add(s);
             }
         }
+
+        for (String s: movies)
+        {
+            movieDb.remove(s);
+        }
         directorDb.clear();
+        directorMovieDb.clear();
     }
 
 
@@ -51,16 +66,16 @@ public class MovieRepository {
     public String deleteDirectorByName(String name) {
         //deleted from director db
 
-        for(Map.Entry<String,String> entry : directorMovieDb.entrySet())
+        List<String> movies = directorMovieDb.get(name);
+
+        for (String s: movies)
         {
-            if(entry.getValue().equals(name))
-            {
-                String movieName = entry.getKey();
-                movieDb.remove(movieName);
-                directorMovieDb.remove(movieName);
-            }
+            movieDb.remove(s);
         }
+
         directorDb.remove(name);
+        directorMovieDb.remove(name);
+
         return "Director and movies are deleted Successfully";
     }
 
