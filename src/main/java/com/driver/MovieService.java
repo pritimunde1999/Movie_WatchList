@@ -19,16 +19,6 @@ public class MovieService {
         return movieRepository.addMovie(movie);
     }
 
-    public List<Movie> getMovies()
-    {
-        HashMap<String,Movie> hm = movieRepository.movieDb;
-        List<Movie> ans = new ArrayList<>();
-        for(Movie movie: hm.values())
-        {
-            ans.add(movie);
-        }
-        return ans;
-    }
     public String addDirector(Director director)
     {
         return movieRepository.addDirector(director);
