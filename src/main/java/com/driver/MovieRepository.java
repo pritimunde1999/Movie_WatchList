@@ -11,21 +11,32 @@ public class MovieRepository {
     HashMap<String,Director> directorDb = new HashMap<>();
     HashMap<String, List<String>> directorMovieDb = new HashMap<>();
 
-    public String addMovie(Movie movie)
+    public void addMovie(Movie movie)
     {
         String key = movie.getName();
         movieDb.put(key,movie);
-        return "Movie Added Successfully";
+
     }
 
-    public String addDirector(Director director)
+    public void addDirector(Director director)
     {
         String key = director.getName();
         directorDb.put(key,director);
-        return "Director Added Successfully";
+
     }
 
-    public String addMovieDirectorPair(String director, String movie)
+    public Movie getMovieByName(String name)
+    {
+        return movieDb.get(name);
+    }
+
+    public Director getDirectorByName(String name)
+    {
+        return directorDb.get(name);
+    }
+
+
+    public void addMovieDirectorPair(String director, String movie)
     {
         if(directorMovieDb.containsKey(director))
         {
@@ -37,7 +48,7 @@ public class MovieRepository {
             list.add(movie);
             directorMovieDb.put(director,list);
         }
-        return "Director-Movie Pair Added Successfully";
+
     }
 
     public void removeAllDirectors()
@@ -63,7 +74,7 @@ public class MovieRepository {
 
 
 
-    public String deleteDirectorByName(String name) {
+    public void deleteDirectorByName(String name) {
         //deleted from director db
 
         List<String> movies = directorMovieDb.get(name);
@@ -76,7 +87,7 @@ public class MovieRepository {
         directorDb.remove(name);
         directorMovieDb.remove(name);
 
-        return "Director and movies are deleted Successfully";
+
     }
 
 }

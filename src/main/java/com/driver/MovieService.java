@@ -14,35 +14,29 @@ public class MovieService {
     @Autowired
     MovieRepository movieRepository;
 
-    public String addMovie(Movie movie)
+    public void addMovie(Movie movie)
     {
-        return movieRepository.addMovie(movie);
+         movieRepository.addMovie(movie);
     }
 
-    public String addDirector(Director director)
+    public void addDirector(Director director)
     {
-        return movieRepository.addDirector(director);
+         movieRepository.addDirector(director);
     }
 
-    public String addMovieDirectorPair(String director, String movie)
+    public void addMovieDirectorPair(String director, String movie)
     {
-        return movieRepository.addMovieDirectorPair(director,movie);
+        movieRepository.addMovieDirectorPair(director, movie);
     }
 
     public Movie getMovieByName(String name)
     {
-        HashMap<String,Movie> hm = movieRepository.movieDb;
-        if(hm.containsKey(name))
-        return hm.get(name);
-        return null;
+        return movieRepository.getMovieByName(name);
     }
 
     public Director getDirectorByName(String name)
     {
-        HashMap<String,Director> hm = movieRepository.directorDb;
-        if(hm.containsKey(name))
-        return hm.get(name);
-        return null;
+        return movieRepository.getDirectorByName(name);
     }
 
     public List<String> getMoviesByDirectorName(String name)
@@ -65,15 +59,15 @@ public class MovieService {
         return ans;
     }
 
-    public String deleteDirectorByName(String name)
+    public void deleteDirectorByName(String name)
     {
-        String msg = movieRepository.deleteDirectorByName(name);
-        return msg;
+        movieRepository.deleteDirectorByName(name);
+
     }
 
-    public String deleteAllDirectors()
+    public void deleteAllDirectors()
     {
         movieRepository.removeAllDirectors();
-        return "All directors Deleted";
+
     }
 }
