@@ -10,64 +10,45 @@ import java.util.List;
 
 @Service
 public class MovieService {
-
     @Autowired
     MovieRepository movieRepository;
-
-    public void addMovie(Movie movie)
-    {
-         movieRepository.addMovie(movie);
+    //1 Add Movie
+    public String addMovie(Movie movie){
+        return movieRepository.addMovie(movie);
     }
-
-    public void addDirector(Director director)
-    {
-         movieRepository.addDirector(director);
+    //2 Add Director
+    public String addDirector(Director director){
+        return movieRepository.addDirector(director);
     }
-
-    public void addMovieDirectorPair(String director, String movie)
-    {
-        movieRepository.addMovieDirectorPair(director, movie);
+    //3 Add Movie-Director pair
+    public String addMovieDirectorPair(String movieName,String directorName){
+        return movieRepository.addMovieDirectorPair(movieName,directorName);
     }
-
-    public Movie getMovieByName(String name)
-    {
+    //4 Get movie by Name
+    public Movie getMovieByName(String name){
         return movieRepository.getMovieByName(name);
     }
-
-    public Director getDirectorByName(String name)
-    {
+    //5 Get director by Name
+    public Director getDirectorByName(String name){
         return movieRepository.getDirectorByName(name);
     }
-
-    public List<String> getMoviesByDirectorName(String name)
-    {
-       HashMap<String,List<String>> hm = movieRepository.directorMovieDb;
-       return hm.get(name);
+    //6 Get movies By Director
+    public List<String> getMoviesByDirectorName(String directorName){
+        HashMap<String,List<String>> list =movieRepository.getAllMovieDirectorPairs();
+        return list.get(directorName);
     }
-
-    public List<String> findAllMovies()
-    {
-        HashMap<String,Movie> hm = movieRepository.movieDb;
-
-        List<String> ans = new ArrayList<>();
-
-        for(String movie: hm.keySet())
-        {
-            ans.add(movie);
-        }
-
-        return ans;
+    //7 Get all movies
+    public List<String> findAllMovies(){
+        HashMap<String,Movie> movies =movieRepository.getAllMovies();
+        // here an ArrayList is returned by using collection call
+        return new ArrayList<>(movies.keySet());
     }
-
-    public void deleteDirectorByName(String name)
-    {
-        movieRepository.deleteDirectorByName(name);
-
+    //8 Delete director by name
+    public String deleteDirectorByName(String directorName){
+        return movieRepository.deleteDirectorByName(directorName);
     }
-
-    public void deleteAllDirectors()
-    {
-        movieRepository.removeAllDirectors();
-
+    //9 delete all directors
+    public String deleteAllDirectors(){
+        return movieRepository.deleteAllDirectors();
     }
 }
