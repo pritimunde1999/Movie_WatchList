@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -36,21 +37,21 @@ public class MovieController {
     }
 
     @GetMapping("/get-movie-by-name/{movieName}")
-    public ResponseEntity<Movie> getMovieByName(@PathVariable("movieName") String movieName)
+    public ResponseEntity<Movie> getMovieByName(@PathParam("movieName") String movieName)
     {
         Movie movie = movieService.getMovieByName(movieName);
         return new ResponseEntity<>(movie,HttpStatus.CREATED);
     }
 
     @GetMapping("/get-director-by-name/{directorName}")
-    public ResponseEntity<Director> getDirectorByName(@PathVariable("directorName") String directorName)
+    public ResponseEntity<Director> getDirectorByName(@PathParam("directorName") String directorName)
     {
         Director director = movieService.getDirectorByName(directorName);
         return new ResponseEntity<>(director,HttpStatus.CREATED);
     }
 
     @GetMapping("/get-movies-by-director-name/{directorName}")
-    public ResponseEntity<List<String>> getMoviesByDirectorName(@PathVariable("directorName") String directorName)
+    public ResponseEntity<List<String>> getMoviesByDirectorName(@PathParam("directorName") String directorName)
     {
         List<String> list = movieService.getMoviesByDirectorName(directorName);
         return new ResponseEntity<>(list,HttpStatus.CREATED);
